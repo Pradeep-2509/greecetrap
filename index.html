@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard | Offer Letter Management</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SENTHIL ANDAVAR <span>INDUSTRIES</span></div>
+    <nav>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="create-offer.html">Create Offer</a>
+      <a href="settings.html">Company Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Offer Letters</h1>
+      <a href="create-offer.html" class="btn btn-primary">+ New Offer</a>
+    </div>
+
+    <div class="card">
+      <div id="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Offer ID</th>
+              <th>Customer Name</th>
+              <th>Total Amount</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="offersBody"></tbody>
+        </table>
+        <div id="emptyState" class="empty-state" style="display:none;">
+          No offer letters yet. <a href="create-offer.html">Create your first offer</a>.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

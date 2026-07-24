@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Offer | Offer Letter Management</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SENTHIL ANDAVAR <span>INDUSTRIES</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="create-offer.html" class="active">Create Offer</a>
+      <a href="settings.html">Company Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Create New Offer</h1>
+    </div>
+
+    <form id="offerForm" class="card">
+      <div class="form-section">
+        <h2>Customer Details</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" required />
+          </div>
+          <div class="field">
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" />
+          </div>
+          <div class="field full">
+            <label for="address">Address</label>
+            <textarea id="address" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Product Details</h2>
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Capacity & Size</th>
+              <th>Shaft Material</th>
+              <th>Inlet & Outlet</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="itemsBody"></tbody>
+        </table>
+        <button type="button" class="btn btn-outline btn-sm" id="addItemBtn">+ Add Product</button>
+      </div>
+
+      <div class="form-footer" style="justify-content: space-between; align-items: center;">
+        <div>Grand Total: <span class="line-total" id="grandTotal">₹0/-</span></div>
+        <div style="display:flex; gap:12px;">
+          <a href="index.html" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-primary">Save Offer</button>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <template id="itemRowTemplate">
+    <tr class="item-row">
+      <td>
+        <select class="capacity-select"></select>
+      </td>
+      <td>
+        <select class="material-select">
+          <option value="M.S">M.S</option>
+          <option value="SS304">SS304</option>
+        </select>
+      </td>
+      <td><input type="text" class="inlet-outlet" placeholder="e.g. 2 Inch PVC" /></td>
+      <td><input type="number" class="quantity" min="1" value="1" style="width:70px;" /></td>
+      <td><input type="number" class="unit-price" readonly style="width:100px; background:#f3f5fa;" /></td>
+      <td class="row-total line-total">₹0/-</td>
+      <td><button type="button" class="btn btn-danger btn-sm remove-row">✕</button></td>
+    </tr>
+  </template>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="assets/js/create-offer.js"></script>
+</body>
+</html>

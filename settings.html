@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Company Settings | Offer Letter Management</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SENTHIL ANDAVAR <span>INDUSTRIES</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="create-offer.html">Create Offer</a>
+      <a href="settings.html" class="active">Company Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Company Settings</h1>
+    </div>
+
+    <form id="settingsForm" class="card">
+      <div class="form-section">
+        <h2>Logos</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label>Company Logo (appears on left)</label>
+            <div class="logo-upload">
+              <div class="logo-preview" id="companyLogoPreview">No logo</div>
+              <input type="file" id="companyLogoInput" accept="image/*" />
+            </div>
+          </div>
+          <div class="field">
+            <label>ISO 9001 Logo (appears on right)</label>
+            <div class="logo-upload">
+              <div class="logo-preview" id="isoLogoPreview">No logo</div>
+              <input type="file" id="isoLogoInput" accept="image/*" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Company Details</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" />
+          </div>
+          <div class="field full">
+            <label for="address">Address</label>
+            <textarea id="address" rows="2"></textarea>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" />
+          </div>
+          <div class="field">
+            <label for="website">Website</label>
+            <input type="text" id="website" />
+          </div>
+          <div class="field">
+            <label for="gstNo">GST No</label>
+            <input type="text" id="gstNo" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Bank Details</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="bankName">Bank Name</label>
+            <input type="text" id="bankName" />
+          </div>
+          <div class="field">
+            <label for="bankAccountNo">Bank Account No</label>
+            <input type="text" id="bankAccountNo" />
+          </div>
+          <div class="field">
+            <label for="branch">Branch</label>
+            <input type="text" id="branch" />
+          </div>
+          <div class="field">
+            <label for="ifscCode">IFSC Code</label>
+            <input type="text" id="ifscCode" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>PDF Text Blocks</h2>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="terms">Terms and Conditions</label>
+            <textarea id="terms" rows="6"></textarea>
+          </div>
+          <div class="field full">
+            <label for="footerText">Footer Text (products list on Page 1)</label>
+            <textarea id="footerText" rows="2"></textarea>
+          </div>
+          <div class="field full">
+            <label for="tinCstText">TIN / CST Text (gold bar on Page 1)</label>
+            <input type="text" id="tinCstText" />
+          </div>
+          <div class="field">
+            <label for="signatoryName">Authorized Signatory Name (Page 2)</label>
+            <input type="text" id="signatoryName" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </div>
+    </form>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="assets/js/settings.js"></script>
+</body>
+</html>
