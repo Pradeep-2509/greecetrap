@@ -50,10 +50,18 @@
 
       <div class="form-section">
         <h2>Product Details</h2>
+        <div class="field product-type-field">
+          <label for="projectType">Project Type</label>
+          <select id="projectType" class="project-type-select">
+            <option value="Grease Trap">Grease Trap</option>
+            <option value="Oil Skimmer">Oil Skimmer</option>
+            <option value="Agitator">Agitator</option>
+          </select>
+        </div>
         <table class="items-table">
           <thead>
             <tr>
-              <th>Capacity & Size</th>
+              <th>Product & Size</th>
               <th>Shaft Material</th>
               <th>Inlet & Outlet</th>
               <th>Quantity</th>
@@ -67,9 +75,9 @@
         <button type="button" class="btn btn-outline btn-sm" id="addItemBtn">+ Add Product</button>
       </div>
 
-      <div class="form-footer" style="justify-content: space-between; align-items: center;">
-        <div>Grand Total: <span class="line-total" id="grandTotal">₹0/-</span></div>
-        <div style="display:flex; gap:12px;">
+      <div class="form-footer form-footer-split">
+        <div class="grand-total-box">Grand Total: <span class="line-total" id="grandTotal">₹0/-</span></div>
+        <div class="form-actions">
           <a href="index.html" class="btn btn-outline">Cancel</a>
           <button type="submit" class="btn btn-primary">Save Offer</button>
         </div>

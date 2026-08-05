@@ -209,6 +209,15 @@ form .form-grid {
   margin-bottom: 16px;
 }
 
+.product-type-field {
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+.project-type-select {
+  min-width: 250px;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -255,15 +264,68 @@ textarea {
   justify-content: flex-end;
   gap: 12px;
   margin-top: 24px;
+  align-items: center;
+}
+
+.form-footer-split {
+  justify-content: space-between;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.grand-total-box {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .items-table {
   margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .items-table th,
 .items-table td {
   font-size: 13px;
+  vertical-align: middle;
+}
+
+.items-table thead th {
+  text-align: center;
+}
+
+.items-table tbody td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.items-table .capacity-select,
+.items-table .material-select,
+.items-table .inlet-outlet,
+.items-table .quantity,
+.items-table .unit-price {
+  width: 100%;
+}
+
+.items-table .capacity-select {
+  min-width: 260px;
+}
+
+.items-table .quantity {
+  max-width: 70px;
+}
+
+.items-table .unit-price {
+  max-width: 110px;
+}
+
+.items-table .row-total {
+  white-space: nowrap;
 }
 
 .line-total {

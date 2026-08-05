@@ -32,24 +32,25 @@ function footerHtml(settings) {
   `;
 }
 
-function itemDescription(item) {
+function itemDescription(item, projectType) {
+  const productLabel = projectType === "Grease Trap" ? "Capacity" : "Product";
   return `
-    <div class="desc-line"><strong>Capacity:</strong> ${item.capacity}</div>
-    <div class="desc-line"><strong>Size:</strong> ${item.size}</div>
-    <div class="desc-line"><strong>Strainer:</strong> Perforated ${item.material} Strainer</div>
-    <div class="desc-line"><strong>Shaft:</strong> ${item.material}</div>
+    <div class="desc-line"><strong>${productLabel}:</strong> ${item.product || item.capacity || "-"}</div>
+    <div class="desc-line"><strong>Size:</strong> ${item.size || "-"}</div>
+    <div class="desc-line"><strong>Material:</strong> ${item.material}</div>
     <div class="desc-line"><strong>Inlet &amp; Outlet:</strong> ${item.inletOutlet || "-"}</div>
     <div class="desc-line"><strong>Quantity:</strong> ${item.quantity}</div>
   `;
 }
 
 function renderPage1(offer, settings) {
+  const projectType = offer.projectType || "Grease Trap";
   const rows = offer.items
     .map(
       (item, idx) => `
       <tr>
         <td class="num">${idx + 1}</td>
-        <td>${itemDescription(item)}</td>
+        <td>${itemDescription(item, projectType)}</td>
         <td class="amount">${formatCurrency(item.total)}</td>
       </tr>
     `
@@ -68,7 +69,7 @@ function renderPage1(offer, settings) {
         <div class="to-subject">
           <p><strong>To:</strong> ${offer.customer.name}${offer.customer.company ? ", " + offer.customer.company : ""}</p>
           <p>${offer.customer.address || ""}</p>
-          <p><strong>Subject:</strong> Offer for Grease Trap</p>
+          <p><strong>Subject:</strong> Offer for ${projectType}</p>
         </div>
         <div class="salutation">
           Dear Sir,<br /><br />
