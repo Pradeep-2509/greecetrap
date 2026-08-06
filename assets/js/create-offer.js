@@ -87,6 +87,7 @@ document.getElementById("offerForm").addEventListener("submit", async (e) => {
     const quantity = Number(row.querySelector(".quantity").value) || 1;
     const unitPrice = Number(row.querySelector(".unit-price").value) || 0;
     return {
+      capacity: product ? product.capacity : selectedValue,
       product: product ? product.capacity : selectedValue,
       size: product ? product.size : "",
       material,
