@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Create Grease Trap Offer | Offer Letter Management</title>
+<title>Create Oil Skimmer Offer | Offer Letter Management</title>
 <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
@@ -18,7 +18,7 @@
 
   <main class="container">
     <div class="page-header">
-      <h1>Create Grease Trap Offer</h1>
+      <h1>Create Oil Skimmer Offer</h1>
     </div>
 
     <form id="offerForm" class="card">
@@ -49,14 +49,13 @@
       </div>
 
       <div class="form-section">
-        <h2>Product Details</h2>
+        <h2>Product Items</h2>
         <table class="items-table">
           <thead>
             <tr>
               <th>Product & Size</th>
-              <th>Description</th>
-              <th>Shaft Material</th>
-              <th>Inlet & Outlet</th>
+              <th>Description Details</th>
+              <th>Material</th>
               <th>Quantity</th>
               <th>Unit Price</th>
               <th>Total</th>
@@ -85,8 +84,75 @@
       <td>
         <select class="capacity-select"></select>
       </td>
-      <td>
-        <textarea class="item-description" rows="4" placeholder="Enter item description or part details"></textarea>
+      <td class="description-details-cell">
+        <fieldset>
+          <legend>1. Motor</legend>
+          <div class="field-row">
+            <label>Capacity</label>
+            <input type="text" class="motor-capacity" placeholder="e.g. 0.5 HP" />
+          </div>
+          <div class="field-row">
+            <label>Make</label>
+            <input type="text" class="motor-make" placeholder="e.g. TGPL" />
+          </div>
+          <div class="field-row">
+            <label>RPM</label>
+            <input type="text" class="motor-rpm" placeholder="e.g. 1440rpm" />
+          </div>
+          <div class="field-row">
+            <label>Type</label>
+            <input type="text" class="motor-type" placeholder="e.g. Flange" />
+          </div>
+          <div class="field-row">
+            <label>Phase</label>
+            <input type="text" class="motor-phase" placeholder="e.g. 3Ph" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Gear Box</legend>
+          <div class="field-row">
+            <label>Make</label>
+            <input type="text" class="gearbox-make" placeholder="e.g. Transtech" />
+          </div>
+          <div class="field-row">
+            <label>Ratio</label>
+            <input type="text" class="gearbox-ratio" placeholder="e.g. 60:1/ 24rpm" />
+          </div>
+          <div class="field-row">
+            <label>Type</label>
+            <input type="text" class="gearbox-type" placeholder="e.g. Whom" />
+          </div>
+          <div class="field-row">
+            <label>Body Size</label>
+            <input type="text" class="gearbox-bodysize" placeholder="e.g. 55" />
+          </div>
+          <div class="field-row">
+            <label>Output Shaft</label>
+            <input type="text" class="gearbox-shaft" placeholder="e.g. 25Dia, Type: Flange" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. Belt</legend>
+          <div class="field-row">
+            <label>Belt Size</label>
+            <input type="text" class="belt-size" placeholder="e.g. Length 1mtrs x 100 W x 3mm PU" />
+          </div>
+          <div class="field-row">
+            <label>Number of Belt</label>
+            <input type="text" class="belt-number" placeholder="e.g. 1 No's" />
+          </div>
+          <div class="field-row">
+            <label>Bottom & Top Pully</label>
+            <input type="text" class="belt-pully" placeholder="e.g. 2 No's" />
+          </div>
+        </fieldset>
+
+        <div class="frame-row">
+          <label>Frame</label>
+          <input type="text" class="frame-material" placeholder="e.g. MS With Epoxy Painting" />
+        </div>
       </td>
       <td>
         <select class="material-select">
@@ -94,7 +160,6 @@
           <option value="SS304">SS304</option>
         </select>
       </td>
-      <td><input type="text" class="inlet-outlet" placeholder="e.g. 2 Inch PVC" /></td>
       <td><input type="number" class="quantity" min="1" value="1" style="width:70px;" /></td>
       <td><input type="number" class="unit-price" readonly style="width:100px; background:#f3f5fa;" /></td>
       <td class="row-total line-total">₹0/-</td>
@@ -105,6 +170,6 @@
   <script src="assets/js/data.js"></script>
   <script src="assets/js/storage.js"></script>
   <script src="assets/js/toast.js"></script>
-  <script src="assets/js/create-offer.js"></script>
+  <script src="assets/js/create-offer-oilskimmer.js"></script>
 </body>
 </html>

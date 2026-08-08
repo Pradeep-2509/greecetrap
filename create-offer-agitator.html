@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Agitator Offer</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .description-details-cell fieldset {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .description-details-cell legend {
+            font-weight: bold;
+            font-size: 0.9em;
+            padding: 0 5px;
+        }
+        .description-details-cell input {
+            margin-bottom: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .description-details-cell label {
+            display: block;
+            font-size: 0.85em;
+            margin-bottom: 2px;
+            color: #555;
+        }
+        .items-table th, .items-table td {
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand">SENTHIL ANDAVAR INDUSTRIES</div>
+        <nav class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="create-offer-select.html" class="active">Create Offer</a>
+            <a href="settings.html">Company Settings</a>
+        </nav>
+    </div>
+
+    <div class="container" style="padding: 20px;">
+        <h2 style="margin-bottom: 20px;">Create Agitator Offer</h2>
+        
+        <div class="card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <form id="offerForm">
+                <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Customer Details</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name *</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" id="companyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="address">Address</label>
+                        <textarea id="address" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin: 25px 0 15px 0;">Product Items</h3>
+                <div style="overflow-x: auto;">
+                    <table class="items-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 10px;">Product & Size</th>
+                                <th style="padding: 10px; width: 40%;">Description Details</th>
+                                <th style="padding: 10px;">Material</th>
+                                <th style="padding: 10px;">Qty</th>
+                                <th style="padding: 10px;">Unit Price</th>
+                                <th style="padding: 10px;">Total</th>
+                                <th style="padding: 10px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsBody">
+                            <!-- Items injected here -->
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-outline" id="addItemBtn" style="margin-top: 15px;">+ Add Product</button>
+
+                <div class="form-footer" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 1.3em; font-weight: bold;">
+                        Grand Total: <span class="line-total" id="grandTotal" style="color: #28a745;">₹0/-</span>
+                    </div>
+                    <div>
+                        <a href="index.html" class="btn btn-outline" style="margin-right: 10px; text-decoration: none;">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Offer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <template id="itemRowTemplate">
+        <tr class="item-row">
+            <td style="vertical-align: top; padding: 15px 10px;">
+                <select class="capacity-select" style="width: 100%; padding: 6px;"></select>
+            </td>
+            <td class="description-details-cell" style="vertical-align: top; padding: 15px 10px;">
+                <fieldset>
+                    <legend>1. Motor</legend>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                        <div><label>Capacity</label><input type="text" class="motor-capacity" placeholder="e.g. 0.5HP"></div>
+                        <div><label>Make</label><input type="text" class="motor-make" placeholder="e.g. CG"></div>
+                        <div><label>Voltage & Hz</label><input type="text" class="motor-voltage" placeholder="e.g. 380v x 60Hz"></div>
+                        <div><label>RPM</label><input type="text" class="motor-rpm" placeholder="e.g. 1440rpm"></div>
+                        <div><label>Type</label><input type="text" class="motor-type" placeholder="e.g. Flange"></div>
+                        <div><label>Phase</label><input type="text" class="motor-phase" placeholder="e.g. 3Ph"></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>2. Gear Box</legend>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                        <div><label>Make</label><input type="text" class="gearbox-make" placeholder="e.g. Transtech"></div>
+                        <div><label>Ratio</label><input type="text" class="gearbox-ratio" placeholder="e.g. 20:1/ 72rpm"></div>
+                        <div><label>Type</label><input type="text" class="gearbox-type" placeholder="e.g. Whom"></div>
+                        <div><label>Body Size</label><input type="text" class="gearbox-bodysize" placeholder="e.g. 55"></div>
+                        <div style="grid-column: 1 / -1;"><label>Output Shaft</label><input type="text" class="gearbox-shaft" placeholder="e.g. 25Dia, Type: Flange"></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>3. Shaft</legend>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 5px;">
+                        <div><label>Length</label><input type="text" class="shaft-length" placeholder="e.g. 500mm x Dia 25mm"></div>
+                        <div><label>Number of Leaf</label><input type="text" class="shaft-leaf" placeholder="e.g. 3 No"></div>
+                        <div><label>Impeller</label><input type="text" class="shaft-impeller" placeholder="e.g. Dia 250mm"></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Frame</legend>
+                    <label>Material</label><input type="text" class="frame-material" placeholder="e.g. MS With Epoxy Painting">
+                </fieldset>
+            </td>
+            <td style="vertical-align: top; padding: 15px 10px;">
+                <select class="material-select" style="padding: 6px;">
+                    <option value="M.S">M.S</option>
+                    <option value="SS304">SS304</option>
+                </select>
+            </td>
+            <td style="vertical-align: top; padding: 15px 10px;">
+                <input type="number" class="quantity" min="1" value="1" style="width:60px; padding: 6px;">
+            </td>
+            <td style="vertical-align: top; padding: 15px 10px;">
+                <input type="number" class="unit-price" readonly style="width:90px; background:#f3f5fa; padding: 6px; border: 1px solid #ccc;">
+            </td>
+            <td style="vertical-align: top; padding: 15px 10px; font-weight: bold;">
+                <span class="row-total line-total">₹0/-</span>
+            </td>
+            <td style="vertical-align: top; padding: 15px 10px;">
+                <button type="button" class="btn btn-danger btn-sm remove-row" style="padding: 4px 8px; cursor: pointer;">✕</button>
+            </td>
+        </tr>
+    </template>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/toast.js"></script>
+    <script src="assets/js/create-offer-agitator.js"></script>
+</body>
+</html>

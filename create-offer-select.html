@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Project | Offer Letter Management</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .project-select-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .project-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .project-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .project-card-link:hover .project-card,
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(11, 37, 89, 0.12);
+      border-color: var(--navy);
+    }
+
+    .project-card-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: rgba(11, 37, 89, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .project-card-link:hover .project-card-icon,
+    .project-card:hover .project-card-icon {
+      background: rgba(11, 37, 89, 0.1);
+      transform: scale(1.08);
+    }
+
+    .project-card h2 {
+      font-size: 20px;
+      color: var(--navy);
+      margin: 0 0 10px 0;
+      font-weight: 700;
+    }
+
+    .project-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SENTHIL ANDAVAR <span>INDUSTRIES</span></div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="create-offer-select.html" class="active">Create Offer</a>
+      <a href="settings.html">Company Settings</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Select Project Type</h1>
+    </div>
+
+    <div class="project-select-grid">
+      <a href="create-offer.html" class="project-card-link">
+        <div class="project-card">
+          <div class="project-card-icon">🔧</div>
+          <h2>Grease Trap</h2>
+          <p>Standard grease trap products with size and material options</p>
+        </div>
+      </a>
+
+      <a href="create-offer-oilskimmer.html" class="project-card-link">
+        <div class="project-card">
+          <div class="project-card-icon">⚙️</div>
+          <h2>Oil Skimmer</h2>
+          <p>Belt type oil skimmer with motor, gear box, and belt specifications</p>
+        </div>
+      </a>
+
+      <a href="create-offer-agitator.html" class="project-card-link">
+        <div class="project-card">
+          <div class="project-card-icon">🔩</div>
+          <h2>Agitator</h2>
+          <p>Industrial agitator with motor, gear box, and shaft specifications</p>
+        </div>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

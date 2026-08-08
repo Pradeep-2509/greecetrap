@@ -1,13 +1,24 @@
+const projectFilterEl = document.getElementById("projectFilter");
+
 async function renderOffers() {
   const body = document.getElementById("offersBody");
   const emptyState = document.getElementById("emptyState");
-  body.innerHTML = `<tr><td colspan="5">Loading offers...</td></tr>`;
+  body.innerHTML = `<tr><td colspan="6">Loading offers...</td></tr>`;
 
   try {
-    const offers = await Storage.getOffers();
+    const allOffers = await Storage.getOffers();
+    const filterValue = projectFilterEl?.value || "all";
+    const offers = filterValue === "all"
+      ? allOffers
+      : allOffers.filter((offer) => (offer.projectType || "Grease Trap") === filterValue);
+
     body.innerHTML = "";
 
     if (offers.length === 0) {
+      const filterValue = projectFilterEl?.value || "all";
+      emptyState.innerHTML = filterValue === "all"
+        ? 'No offer letters yet. <a href="create-offer.html">Create your first offer</a>.'
+        : `No ${filterValue} offers found. <a href="create-offer.html">Create a new offer</a>.`;
       emptyState.style.display = "block";
       return;
     }
@@ -17,6 +28,7 @@ async function renderOffers() {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><span class="badge">${offer.id}</span></td>
+        <td>${offer.projectType || "Grease Trap"}</td>
         <td>${offer.customer.name}</td>
         <td>${formatCurrency(offer.total)}</td>
         <td>${new Date(offer.date).toLocaleDateString("en-IN")}</td>
@@ -28,7 +40,7 @@ async function renderOffers() {
       body.appendChild(tr);
     });
   } catch (err) {
-    body.innerHTML = `<tr><td colspan="5">Could not load offers: ${err.message}</td></tr>`;
+    body.innerHTML = `<tr><td colspan="6">Could not load offers: ${err.message}</td></tr>`;
   }
 }
 
@@ -51,4 +63,5 @@ async function deleteOffer(id) {
   }
 }
 
+projectFilterEl?.addEventListener("change", renderOffers);
 renderOffers();

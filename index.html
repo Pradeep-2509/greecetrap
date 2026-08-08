@@ -11,7 +11,7 @@
     <div class="brand">SENTHIL ANDAVAR <span>INDUSTRIES</span></div>
     <nav>
       <a href="index.html" class="active">Dashboard</a>
-      <a href="create-offer.html">Create Offer</a>
+      <a href="create-offer-select.html">Create Offer</a>
       <a href="settings.html">Company Settings</a>
     </nav>
   </header>
@@ -19,7 +19,19 @@
   <main class="container">
     <div class="page-header">
       <h1>Offer Letters</h1>
-      <a href="create-offer.html" class="btn btn-primary">+ New Offer</a>
+      <a href="create-offer-select.html" class="btn btn-primary">+ New Offer</a>
+    </div>
+
+    <div class="card filter-card">
+      <div class="field">
+        <label for="projectFilter">Filter by Project</label>
+        <select id="projectFilter">
+          <option value="all">All Projects</option>
+          <option value="Grease Trap">Grease Trap</option>
+          <option value="Oil Skimmer">Oil Skimmer</option>
+          <option value="Agitator">Agitator</option>
+        </select>
+      </div>
     </div>
 
     <div class="card">
@@ -28,6 +40,7 @@
           <thead>
             <tr>
               <th>Offer ID</th>
+              <th>Project</th>
               <th>Customer Name</th>
               <th>Total Amount</th>
               <th>Date</th>
