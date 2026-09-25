@@ -19,7 +19,8 @@ const DEFAULT_SETTINGS = {
   tinCstText: "",
   signatoryName: "",
   companyLogo: "",
-  isoLogo: ""
+  isoLogo: "",
+  priceOverrides: {}
 };
 
 const Storage = {

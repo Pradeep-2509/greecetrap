@@ -95,6 +95,19 @@
       </div>
 
       <div class="form-section">
+        <h2>Price Details</h2>
+        <p class="help-text">Update the default M.S and SS304 prices used when creating new offers. Existing offers keep their saved prices.</p>
+        <div class="price-table-wrap">
+          <table class="price-table">
+            <thead>
+              <tr><th>Project</th><th>Product / Capacity</th><th>Size</th><th>M.S Price</th><th>SS304 Price</th></tr>
+            </thead>
+            <tbody id="priceDetailsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-section">
         <h2>PDF Text Blocks</h2>
         <div class="form-grid">
           <div class="field full">
@@ -124,6 +137,7 @@
 
   <div class="toast" id="toast"></div>
 
+  <script src="assets/js/data.js"></script>
   <script src="assets/js/storage.js"></script>
   <script src="assets/js/toast.js"></script>
   <script src="assets/js/settings.js"></script>

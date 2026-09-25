@@ -9,7 +9,10 @@
 <body>
   <div class="screen-toolbar no-print">
     <a href="index.html" class="btn btn-outline">&larr; Back to Dashboard</a>
-    <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+    <div class="document-actions">
+      <button class="btn btn-primary" onclick="window.print()">Download PDF</button>
+      <button class="btn btn-gold" onclick="downloadWord()">Download Word</button>
+    </div>
   </div>
 
   <div id="pdfRoot"></div>

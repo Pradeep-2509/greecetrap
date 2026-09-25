@@ -2,6 +2,30 @@ function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
+function downloadWord() {
+  const content = document.getElementById("pdfRoot").innerHTML;
+  const html = `
+    <!DOCTYPE html><html><head><meta charset="utf-8">
+    <style>${Array.from(document.styleSheets)
+      .flatMap((sheet) => {
+        try {
+          return Array.from(sheet.cssRules).map((rule) => rule.cssText);
+        } catch {
+          return [];
+        }
+      }).join("\n")}</style></head><body>${content}</body></html>
+  `;
+  const blob = new Blob([html], { type: "application/msword" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `Offer-${getQueryParam("id") || "document"}.doc`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function headerHtml(settings) {
   return `
     <div class="doc-header">
@@ -287,6 +311,10 @@ async function renderOfferPdf() {
 
   document.title = `Offer ${offer.id}`;
   root.innerHTML = renderPage1(offer, settings) + renderPage2(offer, settings);
+
+  if (getQueryParam("word") === "1") {
+    setTimeout(downloadWord, 300);
+  }
 
   if (getQueryParam("print") === "1") {
     setTimeout(() => window.print(), 300);

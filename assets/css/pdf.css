@@ -34,6 +34,11 @@ body {
   text-decoration: none;
 }
 
+.document-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .btn-primary {
   background: #c9a227;
   color: #2a2205;
@@ -43,6 +48,11 @@ body {
   background: transparent;
   border: 1px solid #dfe6f5;
   color: #dfe6f5;
+}
+
+.btn-gold {
+  background: #c9a227;
+  color: #2a2205;
 }
 
 .a4-page {

@@ -35,6 +35,7 @@ async function renderOffers() {
         <td class="actions">
           <button class="btn btn-outline btn-sm" onclick="viewOffer('${offer.id}')">View</button>
           <button class="btn btn-gold btn-sm" onclick="downloadOffer('${offer.id}')">Download</button>
+          <button class="btn btn-outline btn-sm" onclick="downloadWordOffer('${offer.id}')">Word</button>
           <button class="btn btn-danger btn-sm" onclick="deleteOffer('${offer.id}')">Delete</button>
         </td>`;
       body.appendChild(tr);
@@ -50,6 +51,10 @@ function viewOffer(id) {
 
 function downloadOffer(id) {
   window.open(`offer-pdf.html?id=${encodeURIComponent(id)}&print=1`, "_blank");
+}
+
+function downloadWordOffer(id) {
+  window.open(`offer-pdf.html?id=${encodeURIComponent(id)}&word=1`, "_blank");
 }
 
 async function deleteOffer(id) {

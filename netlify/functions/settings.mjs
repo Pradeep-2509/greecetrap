@@ -16,7 +16,8 @@ const defaults = {
   tinCstText: "",
   signatoryName: "",
   companyLogo: "",
-  isoLogo: ""
+  isoLogo: "",
+  priceOverrides: {}
 };
 
 function mapSettings(row) {
@@ -37,7 +38,8 @@ function mapSettings(row) {
     tinCstText: row.tin_cst_text || "",
     signatoryName: row.signatory_name || "",
     companyLogo: row.company_logo || "",
-    isoLogo: row.iso_logo || ""
+    isoLogo: row.iso_logo || "",
+    priceOverrides: row.price_overrides || {}
   };
 }
 
@@ -55,10 +57,10 @@ export default async (req) => {
         `INSERT INTO company_settings (
           id, company_name, phone, address, email, website, gst_no,
           bank_name, bank_account_no, branch, ifsc_code, terms,
-          footer_text, tin_cst_text, signatory_name, company_logo, iso_logo,
+          footer_text, tin_cst_text, signatory_name, company_logo, iso_logo, price_overrides,
           updated_at
         ) VALUES (
-          1,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,CURRENT_TIMESTAMP
+          1,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,CURRENT_TIMESTAMP
         )
         ON CONFLICT (id) DO UPDATE SET
           company_name = EXCLUDED.company_name,
@@ -77,12 +79,14 @@ export default async (req) => {
           signatory_name = EXCLUDED.signatory_name,
           company_logo = EXCLUDED.company_logo,
           iso_logo = EXCLUDED.iso_logo,
+          price_overrides = EXCLUDED.price_overrides,
           updated_at = CURRENT_TIMESTAMP
         RETURNING *`,
         [
           s.companyName, s.phone, s.address, s.email, s.website, s.gstNo,
           s.bankName, s.bankAccountNo, s.branch, s.ifscCode, s.terms,
-          s.footerText, s.tinCstText, s.signatoryName, s.companyLogo, s.isoLogo
+          s.footerText, s.tinCstText, s.signatoryName, s.companyLogo, s.isoLogo,
+          JSON.stringify(s.priceOverrides || {})
         ]
       );
       return json(mapSettings(result.rows[0]));

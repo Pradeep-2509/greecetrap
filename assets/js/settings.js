@@ -24,6 +24,41 @@ function populateForm() {
   });
   updateLogoPreview("companyLogoPreview", currentSettings.companyLogo);
   updateLogoPreview("isoLogoPreview", currentSettings.isoLogo);
+  renderPriceDetails();
+}
+
+function renderPriceDetails() {
+  const body = document.getElementById("priceDetailsBody");
+  if (!body) return;
+  body.innerHTML = "";
+  Object.entries(PRODUCT_CATALOGUES).forEach(([projectType, catalogue]) => {
+    catalogue.forEach((product) => {
+      const key = getProductOptionValue(product);
+      const override = currentSettings.priceOverrides?.[projectType]?.[key] || {};
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${projectType}</td>
+        <td>${product.capacity}</td>
+        <td>${product.size}</td>
+        <td><input type="number" min="0" step="0.01" data-price-project="${projectType}" data-price-key="${key}" data-price-material="ms" value="${override.ms ?? product.ms}" /></td>
+        <td><input type="number" min="0" step="0.01" data-price-project="${projectType}" data-price-key="${key}" data-price-material="ss304" value="${override.ss304 ?? product.ss304}" /></td>
+      `;
+      body.appendChild(row);
+    });
+  });
+}
+
+function readPriceDetails() {
+  const priceOverrides = {};
+  document.querySelectorAll("[data-price-project]").forEach((input) => {
+    const project = input.dataset.priceProject;
+    const key = input.dataset.priceKey;
+    const material = input.dataset.priceMaterial;
+    priceOverrides[project] ||= {};
+    priceOverrides[project][key] ||= {};
+    priceOverrides[project][key][material] = Number(input.value) || 0;
+  });
+  return priceOverrides;
 }
 
 function updateLogoPreview(elId, base64) {
@@ -92,6 +127,7 @@ document.getElementById("settingsForm").addEventListener("submit", async (e) => 
     const el = document.getElementById(key);
     if (el) currentSettings[key] = el.value;
   });
+  currentSettings.priceOverrides = readPriceDetails();
   try {
     currentSettings = await Storage.saveSettings(currentSettings);
     showToast("Settings saved");

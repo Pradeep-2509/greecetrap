@@ -55,7 +55,13 @@ function addItemRow() {
 }
 
 document.getElementById("addItemBtn").addEventListener("click", addItemRow);
-addItemRow();
+Storage.getSettings().then((settings) => {
+  setPriceOverrides(settings.priceOverrides);
+  addItemRow();
+}).catch((err) => {
+  showToast(`Could not load prices: ${err.message}`);
+  addItemRow();
+});
 
 document.getElementById("offerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
