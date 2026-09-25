@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS company_settings (
   signatory_name VARCHAR(255),
   company_logo TEXT,
   iso_logo TEXT,
-  price_overrides JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
