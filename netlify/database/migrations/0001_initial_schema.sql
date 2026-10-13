@@ -67,7 +67,7 @@ VALUES (
   '1234567890',
   'Coimbatore Main Branch',
   'SBIN0001234',
-  E'1. Payment: 50% advance along with order, balance before delivery.\n2. Delivery: Within 15-20 working days from the date of order confirmation.\n3. Taxes: GST as applicable extra.\n4. Warranty: 12 months from the date of dispatch.\n5. Terms: Subject to Coimbatore jurisdiction.',
+  E'1. Payment: 50% advance along with order, balance before delivery.\n2. Delivery: Within 15-20 working days from the date of order confirmation.\n3. Taxes: GST as applicable extra.\n4. Warranty: 1 year against manufacturing defects.\n5. Installation & commissioning charges extra, if applicable.\n6. Prices are valid for 30 days from the date of this offer.',
   'Manufacturers of: Oil & Grease Traps | Bio Digesters | STP & ETP Equipment | Water Treatment Plants',
   'TIN No: 33123456789 | CST No: 33987654321',
   'SUGANYA S',
