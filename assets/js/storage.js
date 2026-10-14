@@ -20,6 +20,16 @@ const DEFAULT_SETTINGS = {
   signatoryName: "",
   companyLogo: "",
   isoLogo: "",
+  productImages: {
+    "Grease Trap": [],
+    "Oil Skimmer": [],
+    Agitator: []
+  },
+  productImageSelections: {
+    "Grease Trap": 0,
+    "Oil Skimmer": 0,
+    Agitator: 0
+  },
   priceOverrides: {}
 };
 

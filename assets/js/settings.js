@@ -16,6 +16,11 @@ const fields = [
 ];
 
 let currentSettings = { ...DEFAULT_SETTINGS };
+const productImageFields = [
+  ["Grease Trap", "greaseTrapImageInput", "greaseTrapImagePreview"],
+  ["Oil Skimmer", "oilSkimmerImageInput", "oilSkimmerImagePreview"],
+  ["Agitator", "agitatorImageInput", "agitatorImagePreview"]
+];
 
 function populateForm() {
   fields.forEach((key) => {
@@ -24,6 +29,11 @@ function populateForm() {
   });
   updateLogoPreview("companyLogoPreview", currentSettings.companyLogo);
   updateLogoPreview("isoLogoPreview", currentSettings.isoLogo);
+  productImageFields.forEach(([projectType, , previewId]) => {
+    const images = normalizeProductImages(currentSettings.productImages?.[projectType]);
+    currentSettings.productImages[projectType] = images;
+    updateProductImagePreview(previewId, images);
+  });
   renderPriceDetails();
 }
 
@@ -68,6 +78,19 @@ function updateLogoPreview(elId, base64) {
   } else {
     el.textContent = "No logo";
   }
+}
+
+function normalizeProductImages(images) {
+  if (!images) return [];
+  if (typeof images === "string") return images ? [{ name: "Uploaded image", data: images }] : [];
+  return images.filter((image) => image && image.data);
+}
+
+function updateProductImagePreview(previewId, images) {
+  const preview = document.getElementById(previewId);
+  preview.innerHTML = images.length
+    ? images.map((image) => `<img src="${image.data}" alt="${image.name || "Uploaded image"}" />`).join("")
+    : "No image";
 }
 
 // Downscales the uploaded image to a size that comfortably fits the PDF's
@@ -121,6 +144,26 @@ document.getElementById("isoLogoInput").addEventListener("change", async (e) => 
   }
 });
 
+productImageFields.forEach(([projectType, inputId, previewId]) => {
+  document.getElementById(inputId).addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    try {
+      currentSettings.productImages ||= {};
+      const existing = normalizeProductImages(currentSettings.productImages[projectType]);
+      const uploaded = await Promise.all(files.map(async (file) => ({
+        name: file.name,
+        data: await resizeImageToBase64(file, 1200)
+      })));
+      currentSettings.productImages[projectType] = [...existing, ...uploaded];
+      updateProductImagePreview(previewId, currentSettings.productImages[projectType]);
+    } catch (err) {
+      showToast("Could not load that image — try a different file");
+    }
+  });
+
+});
+
 document.getElementById("settingsForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   fields.forEach((key) => {
@@ -128,6 +171,9 @@ document.getElementById("settingsForm").addEventListener("submit", async (e) => 
     if (el) currentSettings[key] = el.value;
   });
   currentSettings.priceOverrides = readPriceDetails();
+  currentSettings.productImages = Object.fromEntries(
+    productImageFields.map(([projectType]) => [projectType, normalizeProductImages(currentSettings.productImages?.[projectType])])
+  );
   try {
     currentSettings = await Storage.saveSettings(currentSettings);
     showToast("Settings saved");

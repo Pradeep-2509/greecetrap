@@ -2,10 +2,27 @@ function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
-function downloadWord() {
+async function downloadWord() {
   const content = document.getElementById("pdfRoot").innerHTML;
+  const exportStyles = `
+    html, body { margin: 0; padding: 0; background: #fff; }
+    .a4-page {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+      break-after: page;
+      mso-page-break-after: always;
+    }
+    .a4-page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+      mso-page-break-after: auto;
+    }
+  `;
   const html = `
-    <!DOCTYPE html><html><head><meta charset="utf-8">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head><meta charset="utf-8">
     <style>${Array.from(document.styleSheets)
       .flatMap((sheet) => {
         try {
@@ -13,7 +30,11 @@ function downloadWord() {
         } catch {
           return [];
         }
-      }).join("\n")}</style></head><body>${content}</body></html>
+      }).join("\n")}
+      ${exportStyles}
+    </style></head>
+    <body>${content}</body>
+    </html>
   `;
   const blob = new Blob([html], { type: "application/msword" });
   const url = URL.createObjectURL(blob);
@@ -52,6 +73,26 @@ function footerHtml(settings) {
       <div class="footer-company">${settings.companyName}</div>
       <div class="footer-products">${settings.footerText}</div>
       <div class="gold-bar">${settings.tinCstText}</div>
+    </div>
+  `;
+}
+
+function productImageHtml(projectType, settings) {
+  const configured = settings.productImages?.[projectType];
+  const images = Array.isArray(configured)
+    ? configured
+    : configured
+      ? [{ data: configured }]
+      : [];
+  if (!images.length) return "";
+  return `
+    <div class="product-image-gallery product-image-page2">
+      ${images.map((image, index) => `
+        <figure class="product-image">
+          <img src="${image.data}" alt="${projectType} image ${index + 1}" />
+          <figcaption>${image.name || `${projectType} image ${index + 1}`}</figcaption>
+        </figure>
+      `).join("")}
     </div>
   `;
 }
@@ -260,6 +301,7 @@ function renderPage1(offer, settings) {
 }
 
 function renderPage2(offer, settings) {
+  const projectType = offer.projectType || "Grease Trap";
   return `
     <div class="a4-page">
       ${headerHtml(settings)}
@@ -283,6 +325,7 @@ function renderPage2(offer, settings) {
           ${settings.signatoryName ? `<p class="signatory-name">${settings.signatoryName.toUpperCase()}</p>` : ""}
           <p>Authorized Signatory</p>
         </div>
+        ${productImageHtml(projectType, settings)}
       </div>
       ${footerHtml(settings)}
     </div>

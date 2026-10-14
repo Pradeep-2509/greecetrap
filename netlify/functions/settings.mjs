@@ -17,11 +17,30 @@ const defaults = {
   signatoryName: "",
   companyLogo: "",
   isoLogo: "",
+  productImages: {
+    "Grease Trap": [],
+    "Oil Skimmer": [],
+    Agitator: []
+  },
+  productImageSelections: {
+    "Grease Trap": 0,
+    "Oil Skimmer": 0,
+    Agitator: 0
+  },
   priceOverrides: {}
 };
 
 function mapSettings(row) {
   if (!row) return defaults;
+  const parseImages = (value) => {
+    if (!value) return [];
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed : [{ data: value, name: "Uploaded image" }];
+    } catch {
+      return [{ data: value, name: "Uploaded image" }];
+    }
+  };
   return {
     companyName: row.company_name || "",
     phone: row.phone || "",
@@ -39,6 +58,16 @@ function mapSettings(row) {
     signatoryName: row.signatory_name || "",
     companyLogo: row.company_logo || "",
     isoLogo: row.iso_logo || "",
+    productImages: {
+      "Grease Trap": parseImages(row.grease_trap_image),
+      "Oil Skimmer": parseImages(row.oil_skimmer_image),
+      Agitator: parseImages(row.agitator_image)
+    },
+    productImageSelections: row.product_image_selections || {
+      "Grease Trap": 0,
+      "Oil Skimmer": 0,
+      Agitator: 0
+    },
     priceOverrides: row.price_overrides || {}
   };
 }
@@ -58,9 +87,10 @@ export default async (req) => {
           id, company_name, phone, address, email, website, gst_no,
           bank_name, bank_account_no, branch, ifsc_code, terms,
           footer_text, tin_cst_text, signatory_name, company_logo, iso_logo, price_overrides,
+          grease_trap_image, oil_skimmer_image, agitator_image, product_image_selections,
           updated_at
         ) VALUES (
-          1,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,CURRENT_TIMESTAMP
+          1,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,CURRENT_TIMESTAMP
         )
         ON CONFLICT (id) DO UPDATE SET
           company_name = EXCLUDED.company_name,
@@ -80,13 +110,21 @@ export default async (req) => {
           company_logo = EXCLUDED.company_logo,
           iso_logo = EXCLUDED.iso_logo,
           price_overrides = EXCLUDED.price_overrides,
+          grease_trap_image = EXCLUDED.grease_trap_image,
+          oil_skimmer_image = EXCLUDED.oil_skimmer_image,
+          agitator_image = EXCLUDED.agitator_image,
+          product_image_selections = EXCLUDED.product_image_selections,
           updated_at = CURRENT_TIMESTAMP
         RETURNING *`,
         [
           s.companyName, s.phone, s.address, s.email, s.website, s.gstNo,
           s.bankName, s.bankAccountNo, s.branch, s.ifscCode, s.terms,
           s.footerText, s.tinCstText, s.signatoryName, s.companyLogo, s.isoLogo,
-          JSON.stringify(s.priceOverrides || {})
+          JSON.stringify(s.priceOverrides || {}),
+          JSON.stringify(s.productImages?.["Grease Trap"] || []),
+          JSON.stringify(s.productImages?.["Oil Skimmer"] || []),
+          JSON.stringify(s.productImages?.Agitator || []),
+          JSON.stringify(s.productImageSelections || {})
         ]
       );
       return json(mapSettings(result.rows[0]));
