@@ -1,4 +1,5 @@
 const projectFilterEl = document.getElementById("projectFilter");
+const offerIdSearchEl = document.getElementById("offerIdSearch");
 
 async function renderOffers() {
   const body = document.getElementById("offersBody");
@@ -8,17 +9,22 @@ async function renderOffers() {
   try {
     const allOffers = await Storage.getOffers();
     const filterValue = projectFilterEl?.value || "all";
-    const offers = filterValue === "all"
-      ? allOffers
-      : allOffers.filter((offer) => (offer.projectType || "Grease Trap") === filterValue);
+    const searchValue = offerIdSearchEl?.value.trim().toLowerCase() || "";
+    const offers = allOffers.filter((offer) => {
+      const matchesProject = filterValue === "all"
+        || (offer.projectType || "Grease Trap") === filterValue;
+      const matchesOfferId = !searchValue
+        || String(offer.id || "").toLowerCase().includes(searchValue);
+      return matchesProject && matchesOfferId;
+    });
 
     body.innerHTML = "";
 
     if (offers.length === 0) {
-      const filterValue = projectFilterEl?.value || "all";
-      emptyState.innerHTML = filterValue === "all"
-        ? 'No offer letters yet. <a href="create-offer.html">Create your first offer</a>.'
-        : `No ${filterValue} offers found. <a href="create-offer.html">Create a new offer</a>.`;
+      const hasFilters = filterValue !== "all" || searchValue;
+      emptyState.innerHTML = hasFilters
+        ? "No offers match the current filters."
+        : 'No offer letters yet. <a href="create-offer.html">Create your first offer</a>.';
       emptyState.style.display = "block";
       return;
     }
@@ -69,4 +75,5 @@ async function deleteOffer(id) {
 }
 
 projectFilterEl?.addEventListener("change", renderOffers);
+offerIdSearchEl?.addEventListener("input", renderOffers);
 renderOffers();
