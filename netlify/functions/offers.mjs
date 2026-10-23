@@ -54,6 +54,7 @@ export default async (req) => {
 
     if (req.method === "POST") {
       const body = await req.json();
+      const requestedOfferNumber = String(body?.id || "").trim();
       if (!body?.customer?.name?.trim()) {
         return json({ error: "Customer name is required" }, 400);
       }
@@ -72,10 +73,11 @@ export default async (req) => {
 
         const inserted = await client.query(
           `INSERT INTO offers
-            (customer_name, company_name, email, phone, address, grand_total, offer_date)
-           VALUES ($1,$2,$3,$4,$5,$6,CURRENT_TIMESTAMP)
+            (offer_number, customer_name, company_name, email, phone, address, grand_total, offer_date)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,CURRENT_TIMESTAMP)
            RETURNING *`,
           [
+            requestedOfferNumber,
             body.customer.name.trim(),
             body.customer.company || "",
             body.customer.email || "",
@@ -85,14 +87,16 @@ export default async (req) => {
           ]
         );
 
-        const offerRow = inserted.rows[0];
-        const year = new Date(offerRow.offer_date).getFullYear();
-        const offerNumber = `SAI/${year}/${String(offerRow.id).padStart(3, "0")}`;
-
-        const updated = await client.query(
-          "UPDATE offers SET offer_number = $1 WHERE id = $2 RETURNING *",
-          [offerNumber, offerRow.id]
-        );
+        let offerRow = inserted.rows[0];
+        if (!requestedOfferNumber) {
+          const year = new Date(offerRow.offer_date).getFullYear();
+          const generatedOfferNumber = `SAI/${year}/${String(offerRow.id).padStart(3, "0")}`;
+          const updated = await client.query(
+            "UPDATE offers SET offer_number = $1 WHERE id = $2 RETURNING *",
+            [generatedOfferNumber, offerRow.id]
+          );
+          offerRow = updated.rows[0];
+        }
 
         const savedItems = [];
         for (const item of body.items) {
@@ -119,9 +123,12 @@ export default async (req) => {
         }
 
         await client.query("COMMIT");
-        return json(mapOffer(updated.rows[0], savedItems), 201);
+        return json(mapOffer(offerRow, savedItems), 201);
       } catch (error) {
         await client.query("ROLLBACK");
+        if (error.code === "23505" && error.constraint === "offers_offer_number_key") {
+          return json({ error: "An offer with this ID already exists." }, 409);
+        }
         throw error;
       } finally {
         client.release();

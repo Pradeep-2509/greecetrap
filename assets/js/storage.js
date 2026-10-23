@@ -91,10 +91,13 @@ const Storage = {
         const total = (payload.items || []).reduce((sum, item) => sum + (item.total || 0), 0);
         const created = {
           ...payload,
-          id: this.nextOfferId(),
+          id: String(payload.id || this.nextOfferId()).trim(),
           date: new Date().toISOString(),
           total
         };
+        if (offers.some((offer) => offer.id === created.id)) {
+          throw new Error("An offer with this ID already exists.");
+        }
         this.writeLocal(STORAGE_KEYS.offers, [...offers, created]);
         return created;
       }

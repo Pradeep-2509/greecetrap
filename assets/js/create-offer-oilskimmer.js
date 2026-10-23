@@ -1,6 +1,7 @@
 const itemsBody = document.getElementById('itemsBody');
 const template = document.getElementById('itemRowTemplate');
 const grandTotalEl = document.getElementById('grandTotal');
+document.getElementById('offerId').value = Storage.nextOfferId();
 
 function buildProductOptions(select) {
   const catalogue = OIL_SKIMMER_CATALOGUE;
@@ -141,6 +142,7 @@ document.getElementById('offerForm').addEventListener('submit', async (e) => {
   });
 
   const offer = {
+    id: document.getElementById('offerId').value.trim(),
     projectType: 'Oil Skimmer',
     customer: {
       name: document.getElementById('customerName').value,
