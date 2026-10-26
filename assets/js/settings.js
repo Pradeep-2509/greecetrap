@@ -33,6 +33,7 @@ function populateForm() {
     const images = normalizeProductImages(currentSettings.productImages?.[projectType]);
     currentSettings.productImages[projectType] = images;
     updateProductImagePreview(previewId, images);
+    bindProductImageRemoval(projectType, previewId);
   });
   renderPriceDetails();
 }
@@ -89,8 +90,25 @@ function normalizeProductImages(images) {
 function updateProductImagePreview(previewId, images) {
   const preview = document.getElementById(previewId);
   preview.innerHTML = images.length
-    ? images.map((image) => `<img src="${image.data}" alt="${image.name || "Uploaded image"}" />`).join("")
+    ? images.map((image, index) => `
+        <div class="product-image-preview-item">
+          <img src="${image.data}" alt="${image.name || "Uploaded image"}" />
+          <button type="button" class="btn btn-danger btn-sm remove-product-image" data-image-index="${index}">Remove</button>
+        </div>
+      `).join("")
     : "No image";
+}
+
+function bindProductImageRemoval(projectType, previewId) {
+  const preview = document.getElementById(previewId);
+  preview.querySelectorAll(".remove-product-image").forEach((button) => {
+    button.addEventListener("click", () => {
+      const imageIndex = Number(button.dataset.imageIndex);
+      const images = normalizeProductImages(currentSettings.productImages?.[projectType]);
+      currentSettings.productImages[projectType] = images.filter((_, index) => index !== imageIndex);
+      updateProductImagePreview(previewId, currentSettings.productImages[projectType]);
+    });
+  });
 }
 
 // Downscales the uploaded image to a size that comfortably fits the PDF's
@@ -157,6 +175,7 @@ productImageFields.forEach(([projectType, inputId, previewId]) => {
       })));
       currentSettings.productImages[projectType] = [...existing, ...uploaded];
       updateProductImagePreview(previewId, currentSettings.productImages[projectType]);
+      bindProductImageRemoval(projectType, previewId);
     } catch (err) {
       showToast("Could not load that image — try a different file");
     }

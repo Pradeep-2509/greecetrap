@@ -87,11 +87,10 @@ function productImageHtml(projectType, settings) {
   if (!images.length) return "";
   return `
     <div class="product-image-gallery product-image-page2">
-      ${images.map((image, index) => `
-        <figure class="product-image">
-          <img src="${image.data}" alt="${projectType} image ${index + 1}" />
-          <figcaption>${image.name || `${projectType} image ${index + 1}`}</figcaption>
-        </figure>
+      ${images.map((image) => `
+        <div class="product-image">
+          <img src="${image.data}" alt="${projectType} product image" />
+        </div>
       `).join("")}
     </div>
   `;
