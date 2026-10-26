@@ -1,9 +1,12 @@
 import { getPool, json, errorResponse } from "./_db.mjs";
 
+const PROJECT_TYPES = new Set(["Grease Trap", "Oil Skimmer", "Agitator"]);
+
 function mapOffer(row, items = []) {
   return {
     id: row.offer_number,
     date: row.offer_date,
+    projectType: row.project_type || "Grease Trap",
     customer: {
       name: row.customer_name,
       company: row.company_name || "",
@@ -13,9 +16,12 @@ function mapOffer(row, items = []) {
     },
     items: items.map((item) => ({
       capacity: item.capacity || "",
+      product: item.product || item.capacity || "",
       size: item.size || "",
       material: item.shaft_material || "",
       inletOutlet: item.inlet_outlet || "",
+      description: item.description || "",
+      descriptionParts: item.description_parts || undefined,
       quantity: Number(item.quantity || 0),
       unitPrice: Number(item.unit_price || 0),
       total: Number(item.total || 0)
@@ -55,6 +61,9 @@ export default async (req) => {
     if (req.method === "POST") {
       const body = await req.json();
       const requestedOfferNumber = String(body?.id || "").trim();
+      const projectType = PROJECT_TYPES.has(body?.projectType)
+        ? body.projectType
+        : "Grease Trap";
       if (!body?.customer?.name?.trim()) {
         return json({ error: "Customer name is required" }, 400);
       }
@@ -73,11 +82,12 @@ export default async (req) => {
 
         const inserted = await client.query(
           `INSERT INTO offers
-            (offer_number, customer_name, company_name, email, phone, address, grand_total, offer_date)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,CURRENT_TIMESTAMP)
+            (offer_number, project_type, customer_name, company_name, email, phone, address, grand_total, offer_date)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,CURRENT_TIMESTAMP)
            RETURNING *`,
           [
             requestedOfferNumber,
+            projectType,
             body.customer.name.trim(),
             body.customer.company || "",
             body.customer.email || "",
@@ -105,15 +115,18 @@ export default async (req) => {
           const itemTotal = quantity * unitPrice;
           const result = await client.query(
             `INSERT INTO offer_items
-              (offer_id, capacity, size, shaft_material, inlet_outlet, quantity, unit_price, total)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+              (offer_id, capacity, product, size, shaft_material, inlet_outlet, description, description_parts, quantity, unit_price, total)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
              RETURNING *`,
             [
               offerRow.id,
               item.capacity || "",
+              item.product || item.capacity || "",
               item.size || "",
               item.material || "",
               item.inletOutlet || "",
+              item.description || "",
+              item.descriptionParts || null,
               quantity,
               unitPrice,
               itemTotal

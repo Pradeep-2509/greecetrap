@@ -1,0 +1,7 @@
+ALTER TABLE offers
+  ADD COLUMN IF NOT EXISTS project_type VARCHAR(100) NOT NULL DEFAULT 'Grease Trap';
+
+ALTER TABLE offer_items
+  ADD COLUMN IF NOT EXISTS product VARCHAR(255),
+  ADD COLUMN IF NOT EXISTS description TEXT,
+  ADD COLUMN IF NOT EXISTS description_parts JSONB;

@@ -4,6 +4,7 @@ This version replaces browser localStorage with Netlify Database (Postgres).
 
 ## What was added
 - `netlify/database/migrations/0001_initial_schema.sql`
+- `netlify/database/migrations/0004_add_project_types_to_offers.sql`
 - `netlify/functions/offers.mjs`
 - `netlify/functions/settings.mjs`
 - `netlify/functions/_db.mjs`
@@ -13,6 +14,10 @@ This version replaces browser localStorage with Netlify Database (Postgres).
 - `company_settings`
 - `offers`
 - `offer_items`
+
+Offer records store their project type (`Grease Trap`, `Oil Skimmer`, or `Agitator`).
+Offer items also store their project-specific descriptions so database-backed offers
+render with the correct catalogue and product images.
 
 ## Deploy
 1. Keep the existing Netlify Database enabled for this site.

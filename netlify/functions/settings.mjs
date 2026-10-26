@@ -134,4 +134,4 @@ export default async (req) => {
   } catch (error) {
     return errorResponse(error);
   }
-};                                                                                      
+};
